@@ -21,7 +21,9 @@ defmodule ExToolbelt.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:oban, "~> 2.17", optional: true}
+      {:oban, "~> 2.17", optional: true},
+      {:phoenix, ">= 1.7.0", optional: true},
+      {:phoenix_live_view, ">= 0.20.0", optional: true}
     ]
   end
 end
