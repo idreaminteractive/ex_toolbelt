@@ -1,14 +1,26 @@
 defmodule ExToolbelt.AppPage do
+  @controller_provider Application.compile_env(
+                         :ex_toolbelt,
+                         :controller_provider,
+                         {Phoenix.Controller, [formats: [:html]]}
+                       )
+
+  @html_provider Application.compile_env(
+                   :ex_toolbelt,
+                   :html_provider,
+                   {Phoenix.Component, :html}
+                 )
+
   defmacro __using__(:page) do
+    {controller_mod, controller_kind} = @controller_provider
+
     {mod, kind} =
-      Application.compile_env(
-        :ex_toolbelt,
-        :html_provider,
-        {Phoenix.Component, :html}
-      )
+      @html_provider
 
     quote do
       use unquote(mod), unquote(kind)
+      use unquote(controller_mod), unquote(controller_kind)
+      import Phoenix.Controller, except: [render: 2, render: 3]
       @behaviour ExToolbelt.AppPage.Behaviour
 
       @doc """
